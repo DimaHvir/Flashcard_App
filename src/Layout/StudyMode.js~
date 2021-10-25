@@ -1,0 +1,23 @@
+import React, {useEffect, useState} from "react";
+import { Switch, Route, Link, useParams } from "react-router-dom";
+
+function StudyMode({ deck, cards }) {
+    const [curCard, setCurCard] = useState(cards[0]);
+    const [isFlipped, setIsFlipped] = useState(false);
+    
+    return (
+	<React.Fragment>
+	<h1>{deck.name}: Study</h1>
+	<div class="card">
+		<div class="card-body">
+		    <h5 class="card-title">{curCard.name}</h5>
+		    <p class="card-text">{isFlipped ? curCard.back : curCard.front}</p>
+		    <button class="btn btn-primary">Flip</button>
+		    {isFlipped ? (<button class="btn btn-secondary">Next</button>) : ""}
+		</div>
+	</div>
+	</React.Fragment>
+    )
+}
+
+export default StudyMode;
