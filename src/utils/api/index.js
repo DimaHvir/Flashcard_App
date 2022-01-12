@@ -23,6 +23,7 @@ headers.append("Content-Type", "application/json");
 function stripCards(deck) {
   const { cards, ...deckWithoutCards } = deck;
   return deckWithoutCards;
+
 }
 
 /**
@@ -74,6 +75,10 @@ export async function listDecks(signal) {
   return await fetchJson(url, { signal }, []);
 }
 
+export async function listCards(signal) {
+  const url = `${API_BASE_URL}/cards`;
+  return await fetchJson(url, { signal }, []);
+}
 /**
  * Saves deck to the database (public/data/db.json).
  * There is no validation done on the deck object, any object will be saved.
@@ -142,20 +147,6 @@ export async function deleteDeck(deckId, signal) {
   const url = `${API_BASE_URL}/decks/${deckId}`;
   const options = { method: "DELETE", signal };
   return await fetchJson(url, options);
-}
-
-/**
- * Retrieves all cards associated with the specified `deckId`.
- * @param deckId
- *  the id of the target deck
- * @param signal
- *  optional AbortController.signal
- * @returns {Promise<Error|*>}
- *  a promise that resolves to a possible empty array of cards.
- */
-export async function listCards(deckId, signal) {
-  const url = `${API_BASE_URL}/cards?deckId=${deckId}`;
-  return await fetchJson(url, { signal }, []);
 }
 
 /**
