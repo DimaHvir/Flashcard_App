@@ -1,8 +1,48 @@
-import { listCards } from "../utils/api/index";
 import React, {useEffect, useState} from "react";
 import { Switch, Route, Link, useParams, useHistory} from "react-router-dom";
+import {listCards} from "../utils/api/index";
+import ViewDeck from "./ViewDeck";
+import EditDeck from "./EditDeck";
+import StudyDeck from "./StudyDeck";
+import NewCard from "./NewCard";
+import EditCard from "./EditCard";
 
-function DeckPath({ handleDeleteCard, handleUpdateDeck, handleCreateCard, handleUpdateCard, decks }) {
+function DeckPath({decks}) {
+
+
+    return (
+	<Switch>
+	    <Route exact path="/decks/:deckId/cards/new">
+		<NewCard decks={decks} />
+	    </Route>
+	    <Route path="/decks/:deckId/cards/:cardId/edit">
+		<EditCard decks={decks} />
+	    </Route>
+	    <Route path="/decks/:deckId/edit">
+		<EditDeck decks={decks} />
+	    </Route>
+	    <Route path="/decks/:deckId/study">
+		<StudyDeck decks={decks} />
+	    </Route>
+	    <Route exact path="/decks/:deckId">
+		<ViewDeck decks={decks} />
+	    </Route>
+	</Switch>
+    );
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    /*
     const [cards, setCards] = useState([]);
     const [curCard, setCurCard] = useState({});
     const [isFlipped, setIsFlipped] = useState(false);
@@ -165,7 +205,9 @@ function DeckPath({ handleDeleteCard, handleUpdateDeck, handleCreateCard, handle
 		)}
 	    </Route>
 	    </Switch>
-    )
+	    )*/
+
 }
 
 export default DeckPath;
+
