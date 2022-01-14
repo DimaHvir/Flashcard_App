@@ -1,34 +1,40 @@
 import React, {useEffect, useState} from "react";
-import { Switch, Route, Link, useParams, useHistory} from "react-router-dom";
-import {readDeck, updateCard} from "../utils/api/index";
+import {Link, useParams, useHistory} from "react-router-dom";
+import {readDeck, createCard, updateCard} from "../utils/api/index";
 
 function EditCard({decks}) {
     const {cardId, deckId} = useParams();
     const history = useHistory();
-    const [card, setCard] = useState({});
     const [deck, setDeck] = useState({});
-    const [formState, setFormState] = useState({id : Number(cardId), deckId: Number(deckId), front : "", back : ""});
+    const [formState, setFormState] = useState({deckId: Number(deckId), front : "", back : ""});
 
     useEffect(() => {
-	const abortController = new AbortController;
+	const abortController = new AbortController();
 	
 	async function getDeck() {
 	    const foundDeck = await readDeck(Number(deckId), abortController.signal) //decks.find((deck) => deck.id === Number(deckId));
-	    const foundCard = foundDeck.cards.find((card) => card.id === Number(cardId));
+	    if (cardId) {
+		const foundCard = foundDeck.cards.find((card) => card.id === Number(cardId));
+		setFormState(foundCard);
+	    }
 	    setDeck(foundDeck);
-	    setCard(foundCard);
-	    setFormState(foundCard);
 	}
 
 	getDeck()
 
 	return () => abortController.abort;
-    }, []);
+    }, [deckId, cardId]);
 
 
     const handleUpdateCard = async (event) => {
 	event.preventDefault();
-	await updateCard(formState);
+	if (cardId) {
+	    await updateCard(formState);
+	}
+	else {
+	    const newCard = {front: formState.front, back : formState.back}
+	    await createCard(deckId, newCard);
+	}
 	history.push('/');
 	history.goForward();
 	history.go(0);
@@ -38,9 +44,9 @@ function EditCard({decks}) {
     return (
 	<>
 	    <div background-color="grey">
-		<p><Link to="/">Home</Link> / <Link to={`/decks/${deck.id}`}>{deck.name}</Link> / Edit Card</p>
+		<p><Link to="/">Home</Link> / <Link to={`/decks/${deck.id}`}>{deck.name}</Link> / {cardId ? "Edit Card" : "Add Card"} </p>
 	    </div>
-	    <h1>Edit Card</h1>
+	    <h1>{cardId ? "Edit Card" : "Add Card"}</h1>
 	    <form  onSubmit={handleUpdateCard}>
 		<div class="form-group">
 		    <label for="front" name="front">Front</label>

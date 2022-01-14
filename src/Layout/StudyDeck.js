@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import { Switch, Route, Link, useParams, useHistory} from "react-router-dom";
+import { Link, useParams, useHistory} from "react-router-dom";
 import {readDeck} from "../utils/api/index";
 
 function StudyDeck({decks}) {
@@ -12,7 +12,7 @@ function StudyDeck({decks}) {
     const [isFlipped, setIsFlipped] = useState(false);
 
     useEffect(() => {
-	const abortController = new AbortController;
+	const abortController = new AbortController();
 	async function getDeck() {
 	    const foundDeck = await readDeck(Number(deckId)); //.find((deck) => deck.id === Number(deckId));
 	    setDeck(foundDeck);
@@ -23,7 +23,7 @@ function StudyDeck({decks}) {
 	getDeck();
 
 	return () => abortController.abort;
-    },[]);
+    },[deckId]);
 
     const flipHandler = (event) => {
 	event.preventDefault();
@@ -34,7 +34,7 @@ function StudyDeck({decks}) {
 	const curIndex = cards.indexOf(curCard);
 	event.preventDefault();
 	setIsFlipped(false);
-	if (cards.length - 1 == curIndex) {
+	if (cards.length - 1 === curIndex) {
 	    const res = window.confirm("You have finished this deck; press Ok to restart and Cancel to return")
 	    if (res) {
 		setCurCard(cards[0]);

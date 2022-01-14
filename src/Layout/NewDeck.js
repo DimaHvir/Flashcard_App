@@ -21,7 +21,7 @@ function NewDeck() {
 
     const createNewDeck = async (event) => {
 	event.preventDefault();
-	const newDeck = await createDeck(formState);
+	await createDeck(formState);
 	history.push('/');
 	history.goForward();
 	history.go(0);

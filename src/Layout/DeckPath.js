@@ -1,10 +1,8 @@
-import React, {useEffect, useState} from "react";
-import { Switch, Route, Link, useParams, useHistory} from "react-router-dom";
-import {listCards} from "../utils/api/index";
+import React from "react";
+import { Switch, Route,} from "react-router-dom";
 import ViewDeck from "./ViewDeck";
 import EditDeck from "./EditDeck";
 import StudyDeck from "./StudyDeck";
-import NewCard from "./NewCard";
 import EditCard from "./EditCard";
 
 function DeckPath({decks}) {
@@ -13,7 +11,7 @@ function DeckPath({decks}) {
     return (
 	<Switch>
 	    <Route exact path="/decks/:deckId/cards/new">
-		<NewCard decks={decks} />
+		<EditCard decks={decks} />
 	    </Route>
 	    <Route path="/decks/:deckId/cards/:cardId/edit">
 		<EditCard decks={decks} />

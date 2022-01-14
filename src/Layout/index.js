@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import {Route, Switch, useParams, useHistory} from "react-router-dom";
+import {Route, Switch} from "react-router-dom";
 import {listDecks} from "../utils/api/index";
 import NewDeck from "./NewDeck";
 import HomePage from "./HomePage";
@@ -9,7 +9,6 @@ import NotFound from "./NotFound";
 
 function Layout() {
     const [decks, setDecks] = useState([]);
-    const history = useHistory();
     
     useEffect(() => {
 	const abortController = new AbortController();

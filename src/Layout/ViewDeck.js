@@ -1,15 +1,14 @@
 import React, {useEffect, useState} from "react";
-import { Switch, Route, Link, useParams, useHistory} from "react-router-dom";
+import { Link, useParams} from "react-router-dom";
 import {readDeck, deleteCard} from "../utils/api/index";
 
 function ViewDeck({decks}) {
-    const history = useHistory();
     const [deck, setDeck] = useState({});
     const [cards, setCards] = useState([]);
     const {deckId} = useParams();
 
     useEffect(() => {
-	const abortController = new AbortController;
+	const abortController = new AbortController();
       
       async function getDecks() {
           const foundDeck = await readDeck(Number(deckId), abortController.signal); //decks.find((deck) => deck.id === Number(deckId));
@@ -22,7 +21,7 @@ function ViewDeck({decks}) {
       getDecks();
       
       return () => abortController.abort();
-    }, []);
+    }, [deckId]);
 
     const handleDelete = async (cardId) => {
 	if(window.confirm("Delete this card?")) {

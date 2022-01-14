@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import { Switch, Route, Link, useParams, useHistory} from "react-router-dom";
+import { Link, useParams, useHistory} from "react-router-dom";
 import {readDeck, updateDeck} from "../utils/api/index";
 
 function EditDeck({decks}) {
@@ -10,7 +10,7 @@ function EditDeck({decks}) {
     const [formState, setFormState] = useState({id : null, name: "", description: ""});
 
     useEffect(() => {
-	const abortController = new AbortController;
+	const abortController = new AbortController();
 	console.log(deckId);
 	async function getDecks() {
 	    const foundDeck = await readDeck(Number(deckId), abortController.signal); //decks.find((deck) => deck.id === Number(deckId));
@@ -25,7 +25,7 @@ function EditDeck({decks}) {
 	getDecks();
 
 	return () => abortController.abort();
-    }, []);
+    }, [deckId]);
 
 
     const handleUpdateDeck = async (event) => {
